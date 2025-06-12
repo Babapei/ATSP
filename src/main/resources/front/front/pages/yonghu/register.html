@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>注册</title>
+    <link rel="stylesheet" type="text/css" href="../../layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="../../xznstatic/css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="../../xznstatic/css/login.css"/>
+
+    <link rel="stylesheet" href="../../css/theme.css"/>
+    <style type="text/css">
+        /*开始=======================================公共样式===================================================开始*/
+        .register {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            background-image: url(/mhwangshangdingpiao/img/login_background.jpg);
+        }
+
+        .register form {
+            box-sizing: border-box;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center !important;
+            position: inherit;
+        }
+
+        .register .logo,
+        .register .title {
+            box-sizing: border-box;
+        }
+
+        .register .logo img {
+            display: block;
+        }
+
+        .register .title {
+            text-align: center;
+        }
+
+        .register .form-item {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            box-sizing: border-box;
+        }
+
+        .register .form-item input,
+        .register .form-label {
+            box-sizing: border-box;
+        }
+
+        .register .btn-submit {
+            display: block;
+            box-sizing: border-box;
+        }
+
+        .register form p.txt {
+            width: 100%;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .layui-unselect {
+            margin-left: -5px;
+            margin-top: 3px;
+            border: 0px;
+        }
+
+
+
+        /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+        .zhuce::-webkit-scrollbar {
+            width: 10px;
+            height: 1px;
+            border-radius: 10px;
+            background-color: var(--publicMainColor);
+        }
+
+        /*定义滚动条轨道 内阴影+圆角*/
+        .zhuce::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 10px var(--publicMainColor);
+            border-radius: 50px;
+            background-color: var(--publicMainColor);
+        }
+
+        /*定义滑块 内阴影+圆角*/
+        .zhuce::-webkit-scrollbar-thumb {
+            border-radius: 50px;
+            -webkit-box-shadow: inset 0 0 10px var(--publicSubColor);
+            background-color: var(--publicSubColor);
+        }
+
+        .zhuce::-webkit-scrollbar {
+            /* display: none; */
+        }
+
+        /*返回按钮位置*/
+        .returnPosition {
+            text-align: center;
+        }
+
+        /*结束=======================================公共样式===================================================结束*/
+/*返回按钮位置*/
+.returnPosition {
+    text-align:center;
+}
+/*文本框div背景颜色*/
+.inpotdivBackGround {
+    background-color: var(--publicMainColor);
+}
+
+.zhuce {
+background-color:var(--publicMainColor);
+display: inline-block;
+overflow-x: hidden;
+overflow-y: scroll;
+
+}
+
+/* 现代注册框样式 */
+.register-form input:hover {
+    border-color: var(--publicMainColor) !important;
+    box-shadow: 0 4px 12px rgba(123, 197, 191, 0.2) !important;
+}
+
+.register-form input:focus {
+    border-color: var(--publicMainColor) !important;
+    box-shadow: 0 4px 12px rgba(123, 197, 191, 0.3) !important;
+    outline: none;
+}
+
+.register-form select:hover {
+    border-color: var(--publicMainColor) !important;
+    box-shadow: 0 4px 12px rgba(123, 197, 191, 0.2) !important;
+}
+
+.register-form select:focus {
+    border-color: var(--publicMainColor) !important;
+    box-shadow: 0 4px 12px rgba(123, 197, 191, 0.3) !important;
+    outline: none;
+}
+
+.register-form button:hover {
+    background-color: var(--publicSubColor) !important;
+    box-shadow: 0 6px 16px rgba(123, 197, 191, 0.5) !important;
+    transform: translateY(-2px);
+}
+
+.register-form button:active {
+    transform: translateY(0);
+}
+
+.register-form {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 滚动条样式 */
+.register-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.register-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.register-content::-webkit-scrollbar-thumb {
+    background: var(--publicMainColor);
+    border-radius: 10px;
+}
+
+.register-content::-webkit-scrollbar-thumb:hover {
+    background: var(--publicSubColor);
+}
+    </style>
+</head>
+<body>
+<div class="register" id="app">
+<form class="layui-form register-form" lay-filter="myForm"
+      :style='{"padding":"40px","boxShadow":"0 10px 30px rgba(0,0,0,0.3)","borderColor":"rgba(255, 255, 255, 0.2)","backgroundColor":"rgba(255, 255, 255, 0.95)","borderRadius":"12px","borderWidth":"1px","width":"420px","borderStyle":"solid","justifyContent":"center","height":"auto","backdropFilter":"blur(10px)","maxHeight":"80vh"}'>
+
+    <!-- 注册标题 -->
+    <div style="text-align: center; margin-bottom: 30px;">
+        <h2 style="color: #333; font-size: 28px; font-weight: 300; margin: 0;">用户注册</h2>
+    </div>
+
+    <div class="register-content" style="max-height: 400px; overflow-y: auto; padding-right: 10px;">
+        <div :style='{"padding":"0","boxShadow":"none","margin":"20px auto","borderColor":"rgba(0,0,0,0)","backgroundColor":"rgba(0,0,0,0)","borderRadius":"0","borderWidth":"0","width":"100%","borderStyle":"solid","height":"auto"}' class="form-item">
+            <label v-if="false" :style='{"padding":"0 10px","boxShadow":"0 0 6px rgba(255,0,0,0)","borderColor":"rgba(0,0,0,0)","backgroundColor":"transparent","color":"#333","borderRadius":"0","textAlign":"right","borderWidth":"0","width":"84px","fontSize":"16px","borderStyle":"solid"}' class="form-label">账户</label>
+            <input :style='{"padding":"0 15px","boxShadow":"0 2px 8px rgba(0,0,0,0.1)","borderColor":"rgba(220, 220, 220, 1)","backgroundColor":"#fff","color":"#333","borderRadius":"8px","textAlign":"left","borderWidth":"1px","width":"100%","fontSize":"14px","borderStyle":"solid","height":"50px","transition":"all 0.3s ease"}' type="text" name="username" required lay-verify="required" placeholder="请输入账户" autocomplete="off" class="layui-input">
+        </div>
+        <div :style='{"padding":"0","boxShadow":"none","margin":"20px auto","borderColor":"rgba(0,0,0,0)","backgroundColor":"rgba(0,0,0,0)","borderRadius":"0","borderWidth":"0","width":"100%","borderStyle":"solid","height":"auto"}' class="form-item">
+            <label v-if="false" :style='{"padding":"0 10px","boxShadow":"0 0 6px rgba(255,0,0,0)","borderColor":"rgba(0,0,0,0)","backgroundColor":"transparent","color":"#333","borderRadius":"0","textAlign":"right","borderWidth":"0","width":"84px","fontSize":"16px","borderStyle":"solid"}' class="form-label">密码</label>
+            <input :style='{"padding":"0 15px","boxShadow":"0 2px 8px rgba(0,0,0,0.1)","borderColor":"rgba(220, 220, 220, 1)","backgroundColor":"#fff","color":"#333","borderRadius":"8px","textAlign":"left","borderWidth":"1px","width":"100%","fontSize":"14px","borderStyle":"solid","height":"50px","transition":"all 0.3s ease"}' type="password" name="password" required lay-verify="password1|required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+        </div>
+        <div :style='{"padding":"0","boxShadow":"none","margin":"20px auto","borderColor":"rgba(0,0,0,0)","backgroundColor":"rgba(0,0,0,0)","borderRadius":"0","borderWidth":"0","width":"100%","borderStyle":"solid","height":"auto"}' class="form-item">
+            <label v-if="false" :style='{"padding":"0 10px","boxShadow":"0 0 6px rgba(255,0,0,0)","borderColor":"rgba(0,0,0,0)","backgroundColor":"transparent","color":"#333","borderRadius":"0","textAlign":"right","borderWidth":"0","width":"84px","fontSize":"16px","borderStyle":"solid"}' class="form-label">确认密码</label>
+            <input :style='{"padding":"0 15px","boxShadow":"0 2px 8px rgba(0,0,0,0.1)","borderColor":"rgba(220, 220, 220, 1)","backgroundColor":"#fff","color":"#333","borderRadius":"8px","textAlign":"left","borderWidth":"1px","width":"100%","fontSize":"14px","borderStyle":"solid","height":"50px","transition":"all 0.3s ease"}' type="password" name="password2" required lay-verify="password2|required" placeholder="请重复输入密码" autocomplete="off" class="layui-input">
+        </div>
+        <div :style='{"padding":"0","boxShadow":"none","margin":"20px auto","borderColor":"rgba(0,0,0,0)","backgroundColor":"rgba(0,0,0,0)","borderRadius":"0","borderWidth":"0","width":"100%","borderStyle":"solid","height":"auto"}' class="form-item">
+            <label v-if="false" :style='{"padding":"0 10px","boxShadow":"0 0 6px rgba(255,0,0,0)","borderColor":"rgba(0,0,0,0)","backgroundColor":"transparent","color":"#333","borderRadius":"0","textAlign":"right","borderWidth":"0","width":"84px","fontSize":"16px","borderStyle":"solid"}' class="form-label">用户姓名</label>
+            <input :style='{"padding":"0 15px","boxShadow":"0 2px 8px rgba(0,0,0,0.1)","borderColor":"rgba(220, 220, 220, 1)","backgroundColor":"#fff","color":"#333","borderRadius":"8px","textAlign":"left","borderWidth":"1px","width":"100%","fontSize":"14px","borderStyle":"solid","height":"50px","transition":"all 0.3s ease"}' type="text" name="yonghuName" required lay-verify="required" placeholder="请输入用户姓名" autocomplete="off" class="layui-input">
+        </div>
+        <div :style='{"padding":"0","boxShadow":"none","margin":"20px auto","borderColor":"rgba(0,0,0,0)","backgroundColor":"rgba(0,0,0,0)","borderRadius":"0","borderWidth":"0","width":"100%","borderStyle":"solid","height":"auto"}' class="form-item">
+            <label v-if="false" :style='{"padding":"0 10px","boxShadow":"0 0 6px rgba(255,0,0,0)","borderColor":"rgba(0,0,0,0)","backgroundColor":"transparent","color":"#333","borderRadius":"0","textAlign":"right","borderWidth":"0","width":"84px","fontSize":"16px","borderStyle":"solid"}' class="form-label">用户手机号</label>
+            <input :style='{"padding":"0 15px","boxShadow":"0 2px 8px rgba(0,0,0,0.1)","borderColor":"rgba(220, 220, 220, 1)","backgroundColor":"#fff","color":"#333","borderRadius":"8px","textAlign":"left","borderWidth":"1px","width":"100%","fontSize":"14px","borderStyle":"solid","height":"50px","transition":"all 0.3s ease"}' type="text" name="yonghuPhone" required lay-verify="phone|required" placeholder="请输入用户手机号" autocomplete="off" class="layui-input">
+        </div>
+        <div :style='{"padding":"0","boxShadow":"none","margin":"20px auto","borderColor":"rgba(0,0,0,0)","backgroundColor":"rgba(0,0,0,0)","borderRadius":"0","borderWidth":"0","width":"100%","borderStyle":"solid","height":"auto"}' class="form-item">
+            <label v-if="false" :style='{"padding":"0 10px","boxShadow":"0 0 6px rgba(255,0,0,0)","borderColor":"rgba(0,0,0,0)","backgroundColor":"transparent","color":"#333","borderRadius":"0","textAlign":"right","borderWidth":"0","width":"84px","fontSize":"16px","borderStyle":"solid"}' class="form-label">用户身份证号</label>
+            <input :style='{"padding":"0 15px","boxShadow":"0 2px 8px rgba(0,0,0,0.1)","borderColor":"rgba(220, 220, 220, 1)","backgroundColor":"#fff","color":"#333","borderRadius":"8px","textAlign":"left","borderWidth":"1px","width":"100%","fontSize":"14px","borderStyle":"solid","height":"50px","transition":"all 0.3s ease"}' type="text" name="yonghuIdNumber" required lay-verify="identity|required" placeholder="请输入用户身份证号" autocomplete="off" class="layui-input">
+        </div>
+        <div :style='{"padding":"0","boxShadow":"none","margin":"20px auto","borderColor":"rgba(0,0,0,0)","backgroundColor":"rgba(0,0,0,0)","borderRadius":"0","borderWidth":"0","width":"100%","borderStyle":"solid","height":"auto"}' class="form-item">
+            <select name="sexTypes" id="sexTypes" :style='{"padding":"0 15px","boxShadow":"0 2px 8px rgba(0,0,0,0.1)","borderColor":"rgba(220, 220, 220, 1)","backgroundColor":"#fff","color":"#333","borderRadius":"8px","textAlign":"left","borderWidth":"1px","width":"100%","fontSize":"14px","borderStyle":"solid","height":"50px","transition":"all 0.3s ease"}'>
+                <option value="">请选择性别</option>
+                <option v-for="(item,index) in sexTypesList" :value="item.codeIndex" :key="item.codeIndex">{{ item.indexName }}</option>
+            </select>
+        </div>
+    </div>
+
+    <button class="layui-btn layui-btn-fluid layui-btn-danger btn-submit" :style='{"padding":"0","boxShadow":"0 4px 12px rgba(123, 197, 191, 0.4)","margin":"30px auto 20px","borderColor":"var(--publicMainColor)","backgroundColor":"var(--publicMainColor)","color":"#fff","borderRadius":"8px","borderWidth":"0","width":"100%","fontSize":"16px","fontWeight":"500","lineHeight":"50px","borderStyle":"solid","height":"50px","transition":"all 0.3s ease","cursor":"pointer"}' lay-submit lay-filter="register">注册</button>
+    <p :style='{"color":"var(--publicMainColor)","textAlign":"center","fontSize":"14px","margin":"0"}'><a style="color: inherit;font-size: inherit;text-decoration: none;" href="javascript:window.location.href='../login/login.html'">已有账号登录</a></p>
+</form></div>
+
+<script src="../../layui/layui.js"></script>
+<script src="../../js/vue.js"></script>
+<!-- 引入element组件库 -->
+<script src="../../xznstatic/js/element.min.js"></script>
+<!-- 引入element样式 -->
+<link rel="stylesheet" href="../../xznstatic/css/element.min.css">
+<!-- 组件配置信息 -->
+<script src="../../js/config.js"></script>
+<!-- 扩展插件配置信息 -->
+<script src="../../modules/config.js"></script>
+<!-- 工具方法 -->
+<script src="../../js/utils.js"></script>
+<!-- 校验格式工具类 -->
+<script src="../../js/validate.js"></script>
+
+<script>
+    var vue = new Vue({
+        el: '#app',
+        data: {
+            sexTypesList: [],
+        },
+        updated: function () {
+            layui.form.render(null, 'myForm');
+        },
+        methods: {
+            jump(url) {
+                jump(url);
+            },
+        }
+    });
+
+    layui.use(['layer', 'element', 'carousel', 'form', 'http', 'jquery'], function () {
+        var layer = layui.layer;
+        var element = layui.element;
+        var carousel = layui.carousel;
+        var form = layui.form;
+        var http = layui.http;
+        var jquery = layui.jquery;
+
+        var tablename = http.getParam('tablename');
+        //字典表数据容器
+        // 性别的查询和初始化
+        sexTypesSelect();
+        // 表单效验规则
+        form.verify({
+            // 正整数效验规则
+            integer: [
+                /^[1-9][0-9]*$/
+                , '必须是正整数'
+            ]
+            // 小数效验规则
+            , double: [
+                /^[1-9][0-9]{0,5}(\.[0-9]{1,2})?$/
+                , '最大整数位为6为,小数最大两位'
+            ]
+            , password1: function (value, item) { //value：表单的值、item：表单的DOM对象
+                var password2 = jquery("#password2").val();
+                if (password2 != null && password2 != "" && password2 != "null") {
+                    if (value != password2) {
+                        return '密码的两次密码不一致';
+                    }
+                }
+            }
+            , password2: function (value, item) { //value：表单的值、item：表单的DOM对象
+                var password1 = jquery("#password1").val();
+                if (password1 != null && password1 != "" && password1 != "null") {
+                    if (value != password1) {
+                        return '密码的两次密码不一致';
+                    }
+                }
+            }
+        });
+
+        // 注册
+        form.on('submit(register)', function (data) {
+            data = data.field;
+            http.requestJson(tablename + '/register', 'post', data, function (res) {
+                if(res.code==0){
+                    layer.msg('注册成功', {
+                        time: 2000,
+                        icon: 6
+                    }, function () {
+                        // 路径访问设置
+                        window.location.href = '../login/login.html';
+                    });
+                }else{
+                    layer.msg(res.msg, {
+                        time: 4000,
+                        icon: 5
+                    });
+                }
+            });
+            return false
+        });
+
+
+        // 性别的查询
+        function sexTypesSelect() {
+            //填充下拉框选项
+            http.request("dictionary/page?page=1&limit=100&sort=&order=&dicCode=sex_types", "GET", {}, (res) => {
+                if (res.code == 0) {
+                    vue.sexTypesList = res.data.list;
+                }
+            });
+        }
+
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>航班信息详情页</title>
+    <link rel="stylesheet" href="../../layui/css/layui.css">
+    <!-- 样式 -->
+    <link rel="stylesheet" href="../../css/style.css"/>
+    <!-- 主题（主要颜色设置） -->
+    <link rel="stylesheet" href="../../css/theme.css"/>
+    <!-- 通用的css -->
+    <link rel="stylesheet" href="../../css/common.css"/>
+    <link rel="stylesheet" href="../../xznstatic/css/bootstrap.min.css">
+</head>
+<style>
+    .particulars {
+        width: 90%;
+        background-color: #fff;
+        border-bottom: 1px dotted var(--publicMainColor);
+        padding: 10px 0;
+    }
+
+    .dataExhibition {
+        display: inline-block;
+        width: 60%;
+    }
+
+    .displayBianhao {
+        display: inline-block;
+        width: auto;
+    }
+
+    .detail-tab .layui-tab-card>.layui-tab-title .layui-this{
+        border: 2px dotted var(--publicMainColor);
+        background-color: #fff;
+        color: #000;
+    }</style>
+<body>
+
+    <div id="app">
+<div style="width: 1000px;margin: 10px auto;height: auto;">
+    <div style="border: 1px  dotted var(--publicMainColor);border-radius: 15px;margin-top:25px;height: 50px;line-height: 50px;padding-left: 15px;display: flex;justify-content: space-between;align-items: center;padding-right: 15px;">
+        <span>
+            <a style="color: #000;" href="../home/home.html">
+                首页
+            </a>/
+            <a>
+                <cite style="color: #815476;">
+                    {{title}}
+                </cite>
+            </a>
+        </span>
+        <a v-if='storeupFlag' @click="addJipiaoCollection()" href="javascript:void(0)" style="text-decoration: none;display: block;width: 40px;height: 40px; border-radius: 50%;text-align: center;line-height: 40px;background-color: #fff;">
+            <i class="layui-icon" style="font-size: 40px;color: red;" v-if='true'>&#xe67a;</i>
+        </a>
+        <a style="text-decoration: none;display: block;width: 40px;height: 40px; border-radius: 50%;text-align: center;line-height: 40px;background-color: #fff;"
+           v-if='!storeupFlag' @click="addJipiaoCollection()" href="javascript:void(0)">
+            <i class="layui-icon" style="font-size: 40px;color: red;" v-if='true'>&#xe67b;</i>
+        </a>
+    </div>
+    <div style="display: flex;margin-top: 20px;">
+        <!-- 详情介绍 -->
+        <div style="width: 50%;height: auto;">
+            <div class="particulars" style="text-align: center;font-size: 18px;">
+                <span>{{title}}</span>
+            </div>
+                  <div v-if="detail.jipiaoTypes" class="particulars">
+                      <span class="displayBianhao">航班类型:</span>
+                      <span class="dataExhibition"> {{detail.jipiaoValue}} </span>
+                  </div>
+                  <div v-if="detail.jipiaoNewMoney" class="particulars">
+                      <span class="displayBianhao">现价:</span>
+                      <span class="dataExhibition"> {{detail.jipiaoNewMoney}} </span>
+                  </div>
+                  <div v-if="detail.jipiaoChufadi" class="particulars">
+                      <span class="displayBianhao">出发地:</span>
+                      <span class="dataExhibition"> {{detail.jipiaoChufadi}} </span>
+                  </div>
+                  <div v-if="detail.jipiaoMudidi" class="particulars">
+                      <span class="displayBianhao">目的地:</span>
+                      <span class="dataExhibition"> {{detail.jipiaoMudidi}} </span>
+                  </div>
+                  <div v-if="detail.jipiaoTime" class="particulars">
+                      <span class="displayBianhao">出发时间:</span>
+                      <span class="dataExhibition"> {{detail.jipiaoTime}} </span>
+                  </div>
+                  <div v-if="detail.hangbanTypes" class="particulars">
+                      <span class="displayBianhao">航班状态:</span>
+                      <span class="dataExhibition"> {{detail.hangbanValue}} </span>
+                  </div>
+        </div>
+        <!-- 图片 -->
+        <div style="width: 50%;height: auto;">
+            <div>
+                <div v-if="swiperList.length" v-for="(item,index) in swiperList" :key="index">
+                    <img style="width: 100%;height: 100%;object-fit:cover;" :src="baseUrl+item" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 按钮 -->
+    <div style="width: 100%;" v-if="detail.hangbanTypes == 1">
+        <div  style="display: flex;margin-top: 30px;justify-content: center;border-bottom:1px dotted var(--publicMainColor) ;border-top:1px dotted var(--publicMainColor) ;padding: 20px;align-items: center;">
+            <button @click="addJipiaoOrder()" style="height:auto;"
+                    :style='{"padding":"0 10px","boxShadow":"0 0 0px rgba(255,0,0,.3)","margin":"0 5px","borderColor":"rgba(0,0,0,.3)","backgroundColor":"rgba(23, 124, 176, 1)","color":"rgba(255, 255, 255, 1)","borderRadius":"6px","borderWidth":"0","width":"auto","lineHeight":"40px","fontSize":"16px","borderStyle":"solid"}'
+                    type="button" class="layui-btn btn-submit">
+                立即预定
+            </button>
+            <!--
+             <button @click="jipiaoYuyue()" style="height:auto;" :style='{"padding":"0 10px","boxShadow":"0 0 0px rgba(255,0,0,.3)","margin":"0 5px","borderColor":"rgba(0,0,0,.3)","backgroundColor":"rgba(23, 124, 176, 1)","color":"rgba(255, 255, 255, 1)","borderRadius":"6px","borderWidth":"0","width":"auto","lineHeight":"40px","fontSize":"16px","borderStyle":"solid"}' type="button" class="layui-btn btn-submit">
+                 立即预约
+             </button>
+        -->
+        </div>
+    </div>
+
+    <!-- 视频 -->
+
+    <!-- 座位列表 -->
+    <div style="border: 1px dotted var(--publicMainColor);border-radius: 15px;margin-top: 15px;" v-if="detail.hangbanTypes == 1">
+        <div style="width: 100%;">
+            <span style="font-size: 40px;float: left;margin-left: 1%;width: 25%;">座位列表</span>
+            <span style="float: right;width: 73%;margin-top: 12px;margin-right: 1%;">
+                <span style="width: 20%;">订购日期：</span>
+                <el-date-picker style="width:35%" v-model="buyZuoweiTime"
+                    :picker-options="buyZuoweiTimeOptions" @change="zuoweiChange" type="date"
+                    placeholder="选择日期"></el-date-picker>
+            </span>
+        </div>
+        <label
+                style="background: var(--publicMainColor);width:100%;height: 1px;margin: 10px 0px 10px"></label>
+        <div style="display: flex;flex-wrap: wrap;">
+            <div v-for="(item,index) in zuoweiNumberList " v-bind:key="index" class="seat-item">
+                <img @click="selectTip()" v-if="item.select" class="seat-icon" src="../../img/select.png" />
+                <img @click="selectSeat(item)" v-else-if="!item.active" class="seat-icon"
+                     src="../../img/unselect.png" />
+                <img @click="unselectSeat(item)" v-else class="seat-icon" src="../../img/selectActive.png" />
+                <span>{{item.name}}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 评论 -->
+    <div class="layui-row detail-tab" style="border: none;box-shadow: none;">
+        <div class="layui-tab layui-tab-card" style="overflow: hidden;border: none; box-shadow: none;">
+            <ul class="layui-tab-title " :style='{"backgroundColor":"#fff","fontSize":"14px"}' style="color: var(--publicMainColor);border: none;">
+                <li class="layui-this">航班详情</li>
+                <li></li>
+            </ul>
+
+            <div class="layui-tab-content" style="border: 1px dotted var(--publicMainColor);border-radius: 15px;margin-top: 10px;margin-bottom: 50px;">
+                <div class="layui-tab-item layui-show">
+                    <div v-html="myFilters(detail.jipiaoContent)"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>    </div>
+
+
+    <script src="../../layui/layui.js"></script>
+    <script src="../../js/vue.js"></script>
+    <!-- 引入element组件库 -->
+    <script src="../../xznstatic/js/element.min.js"></script>
+    <!-- 引入element样式 -->
+    <link rel="stylesheet" href="../../xznstatic/css/element.min.css">
+    <!-- 组件配置信息 -->
+    <script src="../../js/config.js"></script>
+    <!-- 扩展插件配置信息 -->
+    <script src="../../modules/config.js"></script>
+    <!-- 工具方法 -->
+    <script src="../../js/utils.js"></script>
+
+    <script>
+        Vue.prototype.myFilters= function (msg) {
+            if(msg != null){
+                return msg.replace(/\n/g, "<br>");
+            }else{
+                return "";
+            }
+        };
+        var vue = new Vue({
+            el: '#app',
+            data: {
+                //当前登录用户信息
+                user:{},
+                // 轮播图
+                swiperList: [],//用于当前表的图片
+                // 数据详情
+                detail: {
+                    id: 0
+                },
+                // 商品标题
+                title: '',
+                totalScore: 0,//评分
+                baseUrl:"",//路径
+                storeupFlag: 0,//收藏 [0为收藏 1已收藏]
+                //系统推荐
+                jipiaoRecommendList: [],
+                    // 当前详情页表
+                detailTable: 'jipiao',
+                zuoweiNumberList: [],
+                buyZuoweiTime: getDateFormat(),
+                buyZuoweiTimeOptions: {
+                    disabledDate(time) {//禁止时间
+                        var date = new Date();
+                        date.setTime(date.getTime() - 24 * 60 * 60 * 1000);
+                        return time.getTime() < date;
+                    },
+                },
+            },
+            methods: {
+                //分享
+                share(){
+                    let element = createElement("http://localhost:8080/mhwangshangdingpiao/front/index.html?url="+"./pages/jipiao/detail.html?id="+this.id);
+                    element.select();
+                    element.setSelectionRange(0, element.value.length);
+                    document.execCommand('copy');
+                    element.remove();
+                    layui.layer.msg('复制分享页面成功,快去分享吧!', {time: 2000,icon: 6});
+                },
+
+                jump(url) {
+                    jump(url)
+                },
+                isAuth(tablename, button) {
+                    return isFrontAuth(tablename, button)
+                },
+                //预约
+                jipiaoYuyue(){
+                    let _this = this;
+                    var mymessage = confirm("确定要预约吗？");if(!mymessage){return false;}
+                    // localStorage.setItem('jipiaoId', _this.detail.id);
+                    // _this.jump("../jipiaoOrder/add.html");
+
+                    let data={
+                        jipiaoId:_this.detail.id,
+                        yonghuId:localStorage.getItem("userid"),
+                        jipiaoOrderYesnoTypes:1,
+                    }
+                    // 提交数据
+                    layui.http.requestJson('jipiaoOrder/add', 'post', data, function (res) {
+                        if(res.code == 0) {
+                            layui.layer.msg('预约成功', {
+                                time: 2000,
+                                icon: 6
+                            }, function () {
+                                _this.jump("../jipiaoOrder/list.html");
+                            });
+                        }else{
+                            layui.layer.msg(res.msg, {
+                                time: 5000,
+                                icon: 5
+                            });
+                        }
+                    });
+                },
+                // 收藏商品
+                addJipiaoCollection() {
+                    let _this = this;
+                    layui.http.request('jipiaoCollection/list', 'get', {
+                        page: 1,
+                        limit: 1,
+                        jipiaoId: _this.detail.id,
+                        jipiaoCollectionTypes: 1,
+                        yonghuId: localStorage.getItem('userid'),
+                    }, (res) => {
+                        if (res.data.list.length == 1) {
+                            layui.http.requestJson('jipiaoCollection/delete', 'post', [res.data.list[0].id], function (res) {
+                                layui.layer.msg('取消成功', {
+                                    time: 1000,
+                                    icon: 5
+                                }, function () {
+                                    window.location.reload();
+                                });
+                            });
+                            return false;
+                        }
+                        layui.http.requestJson('jipiaoCollection/add', 'post', {
+                            yonghuId: localStorage.getItem('userid'),
+                            jipiaoId: _this.detail.id,
+                            jipiaoCollectionTypes: 1,
+                        }, function (res) {
+                            layui.layer.msg('收藏成功', {
+                                time: 1000,
+                                icon: 6
+                            }, function () {
+                                window.location.reload();
+                            });
+                        });
+                    });
+                },
+                // 立即购买
+                addJipiaoOrder() {
+        <!-- 座位 -->
+                    //座位list
+                    let activeZuoweiList = [];
+                    for (let i = 0; i < this.zuoweiNumberList.length; i++) {
+                        if (this.zuoweiNumberList[i].active) {
+                            activeZuoweiList.push(this.zuoweiNumberList[i].name.replace('号', ''));
+                        }
+                    }
+                    if (activeZuoweiList.length == 0) {
+                        layer.msg(`请选择要预定的座位`, {
+                            time: 2000,
+                            icon: 5
+                        });
+                        return false;
+                    }
+                    localStorage.setItem("activeZuoweiList",activeZuoweiList);//座位list
+                    localStorage.setItem("buyZuoweiTime",this.buyZuoweiTime);//购买日期
+                    localStorage.setItem("jipiaoId",this.detail.id);
+                    jump('../jipiaoOrder/add.html');
+                },
+
+    <!-- 座位 -->
+		        // 选座座位
+                selectSeat(item) {
+                    item.active = true;
+                },
+                // 取消选择座位
+                unselectSeat(item) {
+                    item.active = false;
+                },
+                // 提示该座位已经被选择了
+                selectTip() {
+                    layer.msg(`该座位已被预定`, {
+                        time: 2000,
+                        icon: 5
+                    });
+                },
+                zuoweiChange() {
+                    let _this = this;
+                    if(layui.jquery.type(this.buyZuoweiTime) === "date"){//如果类型是日期的话，要格式化成字符串， 否则后台没法查询
+                        _this.buyZuoweiTime =layui.util.toDateString(this.buyZuoweiTime, 'yyyy-MM-dd');
+                    }
+                    layui.http.request(`jipiaoOrder/list`, 'get', {
+                        page: 1,
+                        limit: 100,
+                        jipiaoId: vue.detail.id,
+                        jipiaoOrderDelete: 1,
+                        buyZuoweiTimeStart:_this.buyZuoweiTime ,
+                        buyZuoweiTimeEnd: _this.buyZuoweiTime,
+                    }, function (res) {
+                        //生成默认座位
+                        _this.zuoweiNumberList = [];
+                        for (let i = 1; i <= _this.detail.zuoweiNumber; i++) {
+                            _this.zuoweiNumberList.push({
+                                name: `${i}号`,
+                                select: false,
+                                active: false
+                            });
+                        }
+                        //生成座位被使用
+                        if (res.data.list.length > 0) {
+                            res.data.list.forEach(element => {
+                                if (element.buyZuoweiNumber != null) {
+                                    for (let i = 0; i < element.buyZuoweiNumber.split(',').length; i++) {
+                                        _this.zuoweiNumberList[element.buyZuoweiNumber.split(',')[i] - 1].select = true;
+                                    }
+                                }
+                            });
+                        }
+                    });
+                },
+            }
+        });
+
+        layui.use(['layer', 'form', 'element', 'carousel', 'http', 'jquery', 'laypage', 'util'], function () {
+            var layer = layui.layer;
+            var util = layui.util;
+            var element = layui.element;
+            var form = layui.form;
+            var carousel = layui.carousel;
+            var http = layui.http;
+            var jquery = layui.jquery;
+            var laypage = layui.laypage;
+            vue.baseUrl = http.baseurl
+
+            localStorage.setItem("goUtl","./pages/jipiao/detail.html?id="+ http.getParam('id'))
+
+            var limit = 10;
+
+            let table = localStorage.getItem("userTable");
+            if(table){
+                http.request(table+"/session", 'get', {}, function (data) {
+                    vue.user = data.data;
+                });
+            }
+
+            // 数据ID
+            var id = http.getParam('id');
+            vue.detail.id = id;
+            // 数据信息
+            http.request(`${vue.detailTable}/detail/` + id, 'get', {}, function (res) {
+                // 详情信息
+                vue.detail = res.data;
+                vue.title = vue.detail.jipiaoName;
+                vue.detail.jipiaoContent = vue.detail.jipiaoContent.replaceAll("src=\"upload/","src=\""+vue.baseUrl+"upload/");
+                // 轮播图片
+                vue.swiperList = vue.detail.jipiaoPhoto ? vue.detail.jipiaoPhoto.split(",") : [];
+                // 轮播图
+                vue.$nextTick(() => {
+                    carousel.render({
+                        elem: '#swiper',
+                        width: '420px',
+                        height: '400px',
+                        arrow: 'hover',
+                        anim: 'default',
+                        autoplay: 'true',
+                        interval: '3000',
+                        indicator: 'inside'
+                    });
+                });
+
+                <!-- 座位初始化 -->
+                vue.zuoweiChange();
+            });
+
+
+            // 系统推荐
+            http.request(`jipiao/gexingtuijian`, 'get', {
+                page: 1,
+                limit: 5,
+                jipiaoTypes: vue.detail.jipiaoTypes,
+                jipiaoDelete: 1,
+                shangxiaTypes: 1,//上架的
+                hangbanTypes: vue.detail.hangbanTypes,
+            }, function (res) {
+                vue.jipiaoRecommendList = res.data.list;
+            });
+
+            if (localStorage.getItem('userid')) {
+                http.request('jipiaoCollection/list', 'get', {
+                    page: 1,
+                    limit: 1,
+                    jipiaoId: vue.detail.id,
+                    yonghuId: localStorage.getItem('userid'),
+                }, function (res) {
+                    if(res.data.total >0){
+                        res.data.list.forEach(element => {
+                            if (element.jipiaoCollectionTypes == 1) {
+                                vue.storeupFlag = 1;
+                            }
+                            if (element.jipiaoCollectionTypes == 2) {
+                                vue.zanFlag = 1;
+                            }
+                            if (element.jipiaoCollectionTypes == 3) {
+                                vue.caiFlag = 1;
+                            }
+                        });
+
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

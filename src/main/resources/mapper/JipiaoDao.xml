@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.JipiaoDao">
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        a.id as id
+        ,a.jipiao_name as jipiaoName
+        ,a.jipiao_photo as jipiaoPhoto
+        ,a.jipiao_types as jipiaoTypes
+        ,a.jipiao_new_money as jipiaoNewMoney
+        ,a.jipiao_chufadi as jipiaoChufadi
+        ,a.jipiao_mudidi as jipiaoMudidi
+        ,a.jipiao_time as jipiaoTime
+        ,a.zuowei_number as zuoweiNumber
+        ,a.shangxia_types as shangxiaTypes
+        ,a.hangban_types as hangbanTypes
+        ,a.jipiao_delete as jipiaoDelete
+        ,a.jipiao_content as jipiaoContent
+        ,a.create_time as createTime
+    </sql>
+    <select id="selectListView" parameterType="map" resultType="com.entity.view.JipiaoView" >
+        SELECT
+        <include refid="Base_Column_List" />
+        <!-- 级联表的字段 -->
+
+        FROM jipiao  a
+
+        <where>
+            <if test="params.ids != null">
+                and a.id in
+                <foreach item="item" index="index" collection="params.ids" open="(" separator="," close=")">
+                #{item}
+                </foreach>
+            </if>
+            <if test=" params.jipiaoName != '' and params.jipiaoName != null and params.jipiaoName != 'null' ">
+                and a.jipiao_name like CONCAT('%',#{params.jipiaoName},'%')
+            </if>
+            <if test="params.jipiaoTypes != null and params.jipiaoTypes != ''">
+                and a.jipiao_types = #{params.jipiaoTypes}
+            </if>
+            <if test="params.jipiaoNewMoneyStart != null ">
+                <![CDATA[  and a.jipiao_new_money >= #{params.jipiaoNewMoneyStart}   ]]>
+            </if>
+            <if test="params.jipiaoNewMoneyEnd != null ">
+                <![CDATA[  and a.jipiao_new_money <= #{params.jipiaoNewMoneyEnd}   ]]>
+            </if>
+            <if test=" params.jipiaoChufadi != '' and params.jipiaoChufadi != null and params.jipiaoChufadi != 'null' ">
+                and a.jipiao_chufadi like CONCAT('%',#{params.jipiaoChufadi},'%')
+            </if>
+            <if test=" params.jipiaoMudidi != '' and params.jipiaoMudidi != null and params.jipiaoMudidi != 'null' ">
+                and a.jipiao_mudidi like CONCAT('%',#{params.jipiaoMudidi},'%')
+            </if>
+            <if test=" params.jipiaoTimeStart != '' and params.jipiaoTimeStart != null ">
+                <![CDATA[  and UNIX_TIMESTAMP(a.jipiao_time) >= UNIX_TIMESTAMP(#{params.jipiaoTimeStart}) ]]>
+            </if>
+            <if test=" params.jipiaoTimeEnd != '' and params.jipiaoTimeEnd != null ">
+                <![CDATA[  and UNIX_TIMESTAMP(a.jipiao_time) <= UNIX_TIMESTAMP(#{params.jipiaoTimeEnd}) ]]>
+            </if>
+            <if test="params.zuoweiNumberStart != null and params.zuoweiNumberStart != ''">
+                <![CDATA[  and a.zuowei_number >= #{params.zuoweiNumberStart}   ]]>
+            </if>
+            <if test="params.zuoweiNumberEnd != null and params.zuoweiNumberEnd != ''">
+                <![CDATA[  and a.zuowei_number <= #{params.zuoweiNumberEnd}   ]]>
+            </if>
+             <if test="params.zuoweiNumber != null and params.zuoweiNumber != ''">
+                and a.zuowei_number = #{params.zuoweiNumber}
+             </if>
+            <if test="params.shangxiaTypes != null and params.shangxiaTypes != ''">
+                and a.shangxia_types = #{params.shangxiaTypes}
+            </if>
+            <if test="params.hangbanTypes != null and params.hangbanTypes != ''">
+                and a.hangban_types = #{params.hangbanTypes}
+            </if>
+            <if test="params.jipiaoDeleteStart != null and params.jipiaoDeleteStart != ''">
+                <![CDATA[  and a.jipiao_delete >= #{params.jipiaoDeleteStart}   ]]>
+            </if>
+            <if test="params.jipiaoDeleteEnd != null and params.jipiaoDeleteEnd != ''">
+                <![CDATA[  and a.jipiao_delete <= #{params.jipiaoDeleteEnd}   ]]>
+            </if>
+             <if test="params.jipiaoDelete != null and params.jipiaoDelete != ''">
+                and a.jipiao_delete = #{params.jipiaoDelete}
+             </if>
+            <if test=" params.jipiaoContent != '' and params.jipiaoContent != null and params.jipiaoContent != 'null' ">
+                and a.jipiao_content like CONCAT('%',#{params.jipiaoContent},'%')
+            </if>
+
+        </where>
+        order by a.${params.sort} ${params.order}
+    </select>
+
+</mapper>

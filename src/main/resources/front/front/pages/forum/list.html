@@ -1,0 +1,496 @@
+<!-- 租车中心 -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>租车</title>
+    <link rel="stylesheet" href="../../layui/css/layui.css">
+    <script type="text/javascript" src="../../xznstatic/js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../../xznstatic/js/jquery.SuperSlide.2.1.1.js"></script>
+    <!-- 样式 -->
+    <link rel="stylesheet" href="../../css/style.css" />
+    <!-- 主题（主要颜色设置） -->
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <!-- 通用的css -->
+    <link rel="stylesheet" href="../../css/common.css" />
+</head>
+<style>
+    /* 美化滚动条 - 隐藏式设计 */
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: transparent;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: rgba(123, 197, 191, 0.3);
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgba(123, 197, 191, 0.6);
+        transform: scale(1.1);
+    }
+
+    ::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+
+    /* Firefox 滚动条美化 */
+    html {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(123, 197, 191, 0.3) transparent;
+    }
+
+    #swiper {
+        overflow: hidden;
+    }
+    #swiper .layui-carousel-ind li {
+        width: 20px;
+        height: 10px;
+        border-width: 0;
+        border-style: solid;
+        border-color: rgba(0,0,0,.3);
+        border-radius: 6px;
+        background-color: #f7f7f7;
+        box-shadow: 0 0 6px rgba(255,0,0,.8);
+    }
+    #swiper .layui-carousel-ind li.layui-this {
+        width: 30px;
+        height: 10px;
+        border-width: 0;
+        border-style: solid;
+        border-color: rgba(0,0,0,.3);
+        border-radius: 6px;
+    }
+
+    .index-title {
+        text-align: center;
+        box-sizing: border-box;
+        width: 980px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .forum-container .btn-container {
+        display: flex;
+        align-items: center;
+        box-sizing: border-box;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    .forum-container .btn-container button i {
+        margin-right: 4px;
+    }
+
+    .layui-laypage .layui-laypage-count {
+        padding: 0 10px;
+    }
+    .layui-laypage .layui-laypage-skip {
+        padding-left: 10px;
+    }
+
+    /* 新的论坛列表样式 */
+    .forum-list {
+        display: grid;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .forum-item {
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .forum-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1) !important;
+    }
+
+    .forum-card {
+        background: linear-gradient(135deg, #fff 0%, #f8fffe 100%);
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        border: 1px solid rgba(123, 197, 191, 0.1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .forum-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, var(--publicMainColor), var(--publicSubColor));
+    }
+
+    .forum-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .forum-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--publicMainColor), var(--publicSubColor));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        box-shadow: 0 4px 15px rgba(123, 197, 191, 0.3);
+    }
+
+    .forum-meta {
+        flex: 1;
+    }
+
+    .forum-author {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 5px;
+    }
+
+    .author-name {
+        font-weight: 600;
+        font-size: 16px;
+        color: #2c3e50;
+    }
+
+    .author-role {
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .user-role {
+        background: linear-gradient(135deg, #74b9ff, #0984e3);
+        color: white;
+    }
+
+    .admin-role {
+        background: linear-gradient(135deg, #fd79a8, #e84393);
+        color: white;
+    }
+
+    .forum-time {
+        font-size: 13px;
+        color: #7f8c8d;
+    }
+
+    .forum-status {
+        flex-shrink: 0;
+    }
+
+    .forum-content {
+        margin-bottom: 20px;
+    }
+
+    .forum-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin: 0 0 12px 0;
+        line-height: 1.4;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .forum-preview {
+        color: #636e72;
+        font-size: 14px;
+        line-height: 1.6;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .forum-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 15px;
+        border-top: 1px solid rgba(123, 197, 191, 0.1);
+    }
+
+    .forum-stats {
+        display: flex;
+        gap: 20px;
+    }
+
+    .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 13px;
+        color: #74b9ff;
+        font-weight: 500;
+    }
+
+    .stat-item i {
+        font-size: 14px;
+    }
+
+    .forum-arrow {
+        color: var(--publicMainColor);
+        font-size: 16px;
+        transition: transform 0.3s ease;
+    }
+
+    .forum-item:hover .forum-arrow {
+        transform: translateX(5px);
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+        .forum-card {
+            padding: 20px;
+        }
+        
+        .forum-header {
+            gap: 12px;
+        }
+        
+        .forum-avatar {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .forum-title {
+            font-size: 16px;
+        }
+        
+        .forum-stats {
+            gap: 15px;
+        }
+    }
+</style>
+<body>
+
+<div id="app">
+    <div class="index-title sub_backgroundColor" :style='{"padding":"10px","boxShadow":"0 0 2px rgba(160, 67, 26, 1)","margin":"10px auto","borderColor":"rgba(0,0,0,.3)","color":"rgba(255, 255, 255, 1)","borderRadius":"4px","borderWidth":"0","fontSize":"20px","borderStyle":"solid","height":"auto"}'>
+        <span>FORUM / INFORMATION</span><span>租车</span>
+    </div>
+    <div class="forum-container">
+
+
+        <div class="btn-container main_backgroundColor" :style='{"padding":"0 10px","boxShadow":"0 0 0px rgba(255,0,0,.8)","margin":"10px 0 10px 0","borderColor":"rgba(0,0,0,.3)","borderRadius":"4px","alignItems":"center","borderWidth":"0","borderStyle":"solid","justifyContent":"flex-end","height":"64px"}'>
+            <button class="layui-btn layui-btn-lg btn-theme main_backgroundColor"
+                    :style='{"padding":"0 15px","boxShadow":"0 0 8px rgba(0,0,0,0)","margin":"0 0 0 10px","borderColor":"rgba(135, 206, 250, 1)","color":"#fff","borderRadius":"4px","borderWidth":"0","width":"auto","fontSize":"14px","borderStyle":"solid","height":"40px"}'
+                    @click="forumTop" type="button"
+            >
+                <i v-if="true" class="layui-icon">&#xe654;</i> 发布帖子
+            </button>
+        </div>
+        <div class="forum-list">
+            <div v-for="(item,index) in dataList" v-bind:key="index" href="javascript:void(0);" @click="jump('../forum/detail.html?id='+item.id);" class="forum-item">
+                <div class="forum-card">
+                    <div class="forum-header">
+                        <div class="forum-avatar">
+                            <i class="layui-icon layui-icon-username" style="font-size: 24px; color: #fff;"></i>
+                        </div>
+                        <div class="forum-meta">
+                            <div class="forum-author">
+                                <span v-if="item.yonghuId" class="author-name">{{item.yonghuName}}</span>
+                                <span v-if="item.usersId" class="author-name">管理员</span>
+                                <span v-if="item.yonghuId" class="author-role user-role">用户</span>
+                                <span v-if="item.usersId" class="author-role admin-role">管理员</span>
+                            </div>
+                            <div class="forum-time">{{item.insertTime}}</div>
+                        </div>
+                        <div class="forum-status">
+                            <i class="layui-icon layui-icon-fire" style="color: #ff7c7c;"></i>
+                        </div>
+                    </div>
+                    <div class="forum-content">
+                        <h3 class="forum-title">{{item.forumName}}</h3>
+                        <div class="forum-preview" v-if="item.forumContent">
+                            {{item.forumContent | newsDesc}}
+                        </div>
+                    </div>
+                    <div class="forum-footer">
+                        <div class="forum-stats">
+                            <span class="stat-item">
+                                <i class="layui-icon layui-icon-rate"></i> 热度
+                            </span>
+                            <span class="stat-item">
+                                <i class="layui-icon layui-icon-reply-fill"></i> 回复
+                            </span>
+                        </div>
+                        <div class="forum-arrow">
+                            <i class="layui-icon layui-icon-next"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pager" id="pager" :style="{textAlign:1==1?'left':1==2?'center':'right'}"></div>
+    </div>
+
+
+
+    <el-dialog title="发布帖子" :visible.sync="dialogFormVisible" class="demo-ruleForm">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
+            <el-form-item label="标题" :label-width="formLabelWidth" prop="forumName">
+                <el-input v-model="ruleForm.forumName" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="帖子内容" :label-width="formLabelWidth" prop="forumContent">
+                <el-input type="textarea" v-model="ruleForm.forumContent"></el-input>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="addForum('ruleForm')">确 定</el-button>
+        </div>
+    </el-dialog>
+
+
+
+</div>
+
+
+<!-- layui -->
+<script src="../../layui/layui.js"></script>
+<!-- vue -->
+<script src="../../js/vue.js"></script>
+<!-- 引入element组件库 -->
+<script src="../../xznstatic/js/element.min.js"></script>
+<!-- 引入element样式 -->
+<link rel="stylesheet" href="../../xznstatic/css/element.min.css">
+<!-- 组件配置信息 -->
+<script src="../../js/config.js"></script>
+<!-- 扩展插件配置信息 -->
+<script src="../../modules/config.js"></script>
+<!-- 工具方法 -->
+<script src="../../js/utils.js"></script>
+
+<script>
+    var vue = new Vue({
+        el: '#app',
+        data: {
+            forumTypes: -1,
+            dataList: [],
+            forumTypesList:[],
+            ruleForm:{
+                forumStateTypes: 1,
+                forumName: '',
+                forumContent: '',
+            },
+            rules: {
+                forumName: [
+                    { required: true, message: '请输入标题', trigger: 'blur' },
+                ],
+                forumContent: [
+                    { required: true, message: '请输入帖子内容', trigger: 'blur' }
+                ],
+            },
+            dialogFormVisible: false,
+            formLabelWidth: '120px'
+        },
+        filters: {
+            newsDesc: function(val) {
+                if (val) {
+                    if (val.length > 200) {
+                        return val.substring(0, 200).replace(/<[^>]*>/g).replace(/undefined/g, '');
+                    } else {
+                        return val.replace(/<[^>]*>/g).replace(/undefined/g, '');
+                    }
+                }
+                return '';
+            }
+        },
+        methods: {
+            forumTop(){
+                this.jump("./add.html")
+            },
+            jump(url) {
+                jump(url)
+            },
+            addForum() {
+                let _this = this;
+                this.$refs["ruleForm"].validate((valid) => {
+                    if (valid) {
+                        layui.http.requestJson('forum/save', 'post',_this.ruleForm, function (res) {
+                            layer.msg('发布成功', {
+                                time: 1000,
+                                icon: 6
+                            }, function () {
+                                _this.pageList();
+                                _this.dialogFormVisible = false
+                            });
+                        });
+                    }
+                });
+            },
+            pageList(category) {
+                let _this = this;
+                let param = {
+                    page: 1,
+                    limit: 10
+                }
+                if (category != null && category != -1) {
+                    param['forumTypes'] = category;
+                }
+                layui.http.request('forum/list?forumStateTypes=1', 'get',param, function (res) {
+                    _this.dataList = res.data.list
+                    // 分页
+                    layui.laypage.render({
+                        elem: 'pager',
+                        count: res.data.total,
+                        limit: 10,
+                        groups: 3,
+                        layout: ["prev","page","next"],
+                        jump: function(obj, first) {
+                            //首次不执行
+                            if (!first) {
+                                layui.http.request('forum/list?forumStateTypes=1', 'get', {
+                                    page: obj.curr,
+                                    limit: obj.limit
+                                }, function(res) {
+                                    _this.dataList = res.data.list
+                                })
+                            }
+                        }
+                    });
+                });
+            },
+
+        }
+    })
+
+    layui.use(['layer', 'element', 'carousel', 'laypage', 'http', 'jquery'], function() {
+        var layer = layui.layer;
+        var element = layui.element;
+        var carousel = layui.carousel;
+        var laypage = layui.laypage;
+        var http = layui.http;
+        var jquery = layui.jquery;
+
+        localStorage.setItem("goUtl","./pages/forum/list.html")
+
+        var limit = 10;
+
+        vue.pageList()
+    });
+</script>
+</body>
+</html>
