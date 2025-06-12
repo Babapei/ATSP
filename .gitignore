@@ -233,7 +233,7 @@ dist
 *.lock.db
 
 # MySQL dumps
-*.sql
+# *.sql
 
 # Database config (if containing sensitive info)
 # application-prod.yml
