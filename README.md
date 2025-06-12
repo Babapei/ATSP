@@ -116,7 +116,7 @@ ATSP/
 
 #### 1. 克隆项目
 ```bash
-git clone [your-repository-url]
+git clone [git@github.com:Babapei/ATSP.git]
 cd ATSP
 ```
 
@@ -154,6 +154,7 @@ mvn spring-boot:run
 ```
 
 或者在IDE中直接运行主启动类
+<font color="green">将upload.zip解压缩去替换ATSP\target\classes\static\upload，这里面有对应的现目前的所有照片（不这样做的话没法显示照片）</font>
 
 #### 5. 配置并启动Vue前端（管理端）
 
