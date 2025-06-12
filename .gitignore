@@ -73,7 +73,7 @@ local.properties
 .recommenders
 
 # Eclipse Core
-.project
+# .project
 
 # External tool builders
 .externalToolBuilders/
@@ -288,10 +288,10 @@ build/
 
 # STS
 .apt_generated
-.classpath
+# .classpath
 .factorypath
-.project
-.settings
+# .project
+# .settings
 .springBeans
 .sts4-cache
 
@@ -329,7 +329,7 @@ build/
 *.jks
 
 # ================== 文档和媒体 ==================
-# 大文件
+# 大文件（保留项目演示文件）
 *.mp4
 *.avi
 *.mkv
@@ -348,17 +348,17 @@ build/
 # *.svg
 
 # ================== 自定义忽略 ==================
-# 上传文件目录
+# 上传文件目录（保留示例数据）
 /uploads/
-/upload/
+# /upload/  # 注释掉，保留示例数据
 /files/
 
 # 静态资源构建输出
 /src/main/resources/static/dist/
 
-# 本地测试文件
-test-*
-*-test.*
+# 本地测试文件（谨慎使用通配符）
+# test-*  # 过于宽泛，可能误伤重要文件
+# *-test.*  # 过于宽泛，可能误伤重要文件
 
 # 部署脚本（如果包含敏感信息）
 # deploy.sh
