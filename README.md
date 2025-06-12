@@ -204,7 +204,9 @@ cnpm run build
 项目启动成功后，可以通过以下地址访问：
 
 - **用户端首页**: http://localhost:8080/mhwangshangdingpiao/front/index.html
+- eg.用户名：c 密码：1
 - **管理员后台（开发模式）**: http://localhost:8081/#/login
+- eg.用户名：admin 密码：admin
 - **管理员后台（生产模式）**: http://localhost:8080/mhwangshangdingpiao/admin/dist/index.html
 
 ## 📋 功能模块详解
